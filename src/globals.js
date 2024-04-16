@@ -6,7 +6,6 @@ const LOCATIONS = [
     },
     {
         name: "Dewick",
-        path: "/dewick-dining-hall",
         category: "dining",
         databaseKey: 2
     },

@@ -4,7 +4,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const links = [
   { name: 'Ratings', path: '/ratings' },
-  { name: 'About', path: '/about' }
+  { name: 'About', path: '/about' },
+  { name: 'Submit rating', path: '/submit' }
 ];
 
 const Navigation = () => {

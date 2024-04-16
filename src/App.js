@@ -2,6 +2,7 @@ import React from 'react';
 import ViewRatings from './ViewRatings';
 import About from './About';
 import Navigation from './Navigation';
+import SubmitRating from './SubmitRating';
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             {/* <Route path="/" element={<Navigate replace to="/ratings" />} /> */}
             <Route path="/ratings" element={<ViewRatings />} />
+            <Route path="/submit" element={<SubmitRating />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<Navigate replace to="/ratings" />} />
           </Routes>

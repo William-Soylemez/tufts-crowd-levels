@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import QuickSubmit from './QuickSubmit';
+import { db } from './config/firebase-config';
+import { query, collection, where, getDocs } from 'firebase/firestore';
 
 function Location({ location, hour }) {
-  const [ratingAverages, setRatingAverages] = useState({});
+  const [ratingAverage, setRatingAverage] = useState({});
 
   const [status, setStatus] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
@@ -19,32 +21,28 @@ function Location({ location, hour }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const params = new URLSearchParams();
-        params.append('location', location.databaseKey);
-        params.append('hour', todayFirstHour());
-        const response = await fetch(`https://us-central1-tufts-crowds.cloudfunctions.net/getRatingAverages?${params.toString()}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          if (!response.ok) {
-            setStatus(2);
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
+        const queryLocation = location.databaseKey;
+        const queryHour = todayFirstHour() + hour;
+        console.log(queryHour, queryLocation);
+        const q = query(collection(db, 'averages'), where('location', '==', queryLocation), where('hour', '==', queryHour));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
           setStatus(1);
-          return response;
-        });
-
-        const data = await response.json();
-        setRatingAverages(data);
+          setRatingAverage(0);
+          return;
+        }
+        const data = querySnapshot.docs[0].data();
+        console.log(data);
+        console.log(data.total, data.submissions, data.total / data.submissions);
+        setRatingAverage(data.total / data.submissions);
+        setStatus(1);
       } catch (err) {
         console.error(err);
+        setStatus(2);
       }
     }
     fetchData();
-  }, [location]);  
+  }, [location, hour]);
 
   return (
     <div className='text-center w-full mx-auto my-5 flex flex-col'>
@@ -79,13 +77,13 @@ function Location({ location, hour }) {
           }
           { status === 1 &&
             <div>
-              <p>Crowd level: {Math.round(ratingAverages[todayFirstHour() + hour] * 100) / 100}</p>
+              <p>Crowd level: {Math.round(ratingAverage * 100) / 100}</p>
               <ul className='flex flex-row justify-center'>
                 {
                   Array.from({ length: 5 }, (v, i) => i + 1).map((rating, index) => (
                     <li key={index} className={`
-                      ${(index + 1) <= ratingAverages[todayFirstHour() + hour] ? 'bg-purple-100' : 'bg-white'}
-                      w-6 h-6
+                      ${(index + 1) <= ratingAverage ? 'bg-purple-100' : 'bg-white'}
+                      h-6 w-6
                       first:rounded-l-xl first:border-l-2
                       last:rounded-r-xl last:border-r-2
                       border-r-2 border-y-2 border-purple-200
