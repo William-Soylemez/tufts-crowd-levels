@@ -16,8 +16,16 @@ const ViewRatings = () => {
 
   return (
     <div>
-      <h1 className='text-center mb-10 pb-2 border-b-2 border-purple-200 w-1/2 mx-auto text-lg'>View Ratings</h1>
-      <div className='flex flex-row justify-between mx-10 mb-5 items-center'>
+      {/* Title */}
+      <div className='mb-10'>
+        <h1 className='text-center pb-2 border-b-2 border-purple-200 w-1/2 mx-auto text-lg'>View Ratings</h1>
+        <p className='mx-auto w-fit'>{new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(new Date())}</p>
+      </div>
+
+      {/* Time selector */}
+      <div className='flex flex-row justify-between mx-5 mb-5 items-center'>
+
+        {/* Old interface */}
         {/* <button
           onClick={() => setHour((hour + 23) % 24)}
           className='text-lg border-2 border-purple-200 rounded-xl w-12 h-8'
@@ -26,7 +34,13 @@ const ViewRatings = () => {
         <button
           onClick={() => setHour((hour + 25) % 24)}
           className='text-lg border-2 border-purple-200 rounded-xl w-12 h-8'
-        >+</button> */}
+        >+</button> */} 
+
+        {/* New interface (dropdown) */}
+        <button
+          onClick={() => setHour((hour + 23) % 24)}
+          className='text-lg border-2 border-purple-200 rounded-xl w-10 h-10'
+        >-</button>
         <select onChange={(e) => setHour(parseInt(e.target.value))} value={hour} className='border-2 border-purple-200 rounded-xl p-2'>
           {
             Array.from({ length: 24 }, (_, i) => (
@@ -34,8 +48,14 @@ const ViewRatings = () => {
             ))
           }
         </select>
-        <button className='p-2 bg-purple-200 rounded-xl' onClick={() => setHour((new Date()).getHours())}>Reset time</button>
+        <button className='p-2 bg-purple-200 rounded-xl' onClick={() => setHour((new Date()).getHours())}>Now</button>
+        <button
+          onClick={() => setHour((hour + 25) % 24)}
+          className='text-lg border-2 border-purple-200 rounded-xl w-10 h-10'
+        >+</button>
       </div>
+
+      {/* Category selector */}
       <div className='m-auto w-fit'>
         <span className='mx-2'>Category:</span>
         <select className='border-2 border-purple-200 rounded-xl p-2' onChange={(e) => setFilter(e.target.value)} value={filter}>
@@ -45,6 +65,8 @@ const ViewRatings = () => {
           <option value='other'>Other</option>
         </select>
       </div>
+
+      {/* Ratings */}
       {
         LOCATIONS
           .filter((location) => (filter === 'all' || location.category === filter))

@@ -15,7 +15,7 @@ const Navigation = () => {
   const path = window.location.pathname;
 
   return (
-    <nav className='border-b-2 border-purple-200 py-2 px-5 sticky top-0 bg-purple-100'>
+    <nav className='border-b-2 border-purple-200 py-2 px-5 sticky top-0 bg-purple-100 z-10'>
       
       <div className='flex flex-row justify-between'>
         <button onClick={() => setShowNav(true)} className=''>

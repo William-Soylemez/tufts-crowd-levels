@@ -38,9 +38,13 @@ const QuickSubmit = ({location, close}) => {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <h1 className='font-semibold text-lg'>Submit new crowd rating for {location.name}</h1>
+
+      <h1 className='font-semibold text-lg mb-5'>Submit rating for {location.name}</h1>
+      <p>
+        Rate {location.name} for the current crowd level.
+      </p>
       
-      <p className='mt-5 w-full text-left'>Choose a rating...</p>
+      {/* <p className='mt-5 w-full text-left'>Choose a rating...</p> */}
       <div className='flex flex-row my-2 mb-5'>
         
         {

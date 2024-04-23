@@ -22,6 +22,9 @@ exports.getRatingCounts = getRatingCounts.getRatingCounts;
 const getRatingAverages = require("./getRatingAverages");
 exports.getRatingAverages = getRatingAverages.getRatingAverages;
 
+const getComments = require("./getComments");
+exports.getComments = getComments.getComments;
+
 exports.helloWorld = onRequest((request, response) => {
   logger.info("Hello logs!", {structuredData: true});
   response.send("Hello from Firebase!");

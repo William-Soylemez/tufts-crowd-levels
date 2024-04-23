@@ -64,7 +64,7 @@ exports.getRatingAverages = functions.https.onRequest(async (req, res) => {
 
 function validateInputs(location, hour) {
 
-    if (isNaN(location) || location < 0 || location > 4) {
+    if (isNaN(location) || location < 0 || location > 40) {
         console.log('Invalid location!', location);
         return false;
     }

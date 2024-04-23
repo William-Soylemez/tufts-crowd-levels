@@ -109,5 +109,5 @@ exports.updateRating = functions.https.onRequest(async (req, res) => {
 });
 
 function validateRatingAndLocation(rating, location, comment) {
-    return (rating >= 0 && rating <= 99 && location >= 1 && location <= 5 && typeof comment === 'string');
+    return (rating >= 0 && rating <= 99 && location >= 1 && location <= 40 && typeof comment === 'string');
 }
