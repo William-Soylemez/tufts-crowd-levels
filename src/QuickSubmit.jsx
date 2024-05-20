@@ -61,7 +61,7 @@ const QuickSubmit = ({location, close}) => {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         className='w-full h-32 border-2 border-purple-200 rounded-sm'
-        placeholder='Add a comment...'
+        placeholder='Add a comment... (optional)'
       />
       <button
         disabled={rating === -1}

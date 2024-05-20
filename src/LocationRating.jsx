@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import QuickSubmit from './QuickSubmit';
 import { db } from './config/firebase-config';
 import { query, collection, where, getDocs } from 'firebase/firestore';
-import { useCollapse } from 'react-collapsed';
+import AnimateHeight from 'react-animate-height';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -17,7 +17,6 @@ function Location({ location, hour }) {
   const [comments, setComments] = useState([]);
 
   const [showComments, setShowComments] = useState(false);
-  const { getCollapseProps, getToggleProps } = useCollapse({ showComments });
 
   const ratingColors = [
     'text-purple-300',
@@ -53,9 +52,16 @@ function Location({ location, hour }) {
       setStatus(2);
     }
   }
+
   useEffect(() => {
     fetchData();
   }, [location, hour]);
+
+  useEffect(() => {
+    setShowComments(false);
+    setCommentStatus(0);
+    console.log("New hour");
+  }, [hour]);
 
   const getComments = async () => {
     try {
@@ -118,11 +124,7 @@ function Location({ location, hour }) {
       {/* Main */}
       {/* Title */}
       <div
-      className='rounded-t-xl bg-purple-300 py-2 relative'
-        {...getToggleProps({
-          onClick: toggleComments
-        })}
-        >
+      className='rounded-t-xl bg-purple-300 py-2 relative' onClick={toggleComments}>
         <p className='text-center'>{ location.name }</p>
         <div className='absolute right-2 top-2'>
           {showComments ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -131,19 +133,21 @@ function Location({ location, hour }) {
 
       {/* Comments */}
       
-      <div {...getCollapseProps()} className='border-purple-200 border-x-2 border-b-2'>
-        <p className='w-fit mx-auto p-2 text-lg border-b-2 border-purple-200'>Comments</p>
-        {commentStatus === 0 && <CircularProgress size={24} sx={{ color: "inherit" }} />}
-        {commentStatus === 1 && <ul>
-          { comments.map((comment, index) => (
-            <li key={index} className='border-purple-200 border-b-2 last:border-0 flex flex-row items-center py-2 mx-5'>
-              <p className={ratingColors[comment.rating - 1] + " text-3xl w-10 h-10"}>{comment.rating}</p>
-              <p className='text-left  text-sm w-fit'>{comment.comment}</p>
-            </li>
-          ))}
-        </ul>}
-        {commentStatus === 2 && <p className='text-center'>No comments yet</p>}
-        {commentStatus === 3 && <p className='text-center'>Error fetching data</p>}
+      <div className='border-purple-200 border-x-2 border-b-2'>
+        <AnimateHeight duration={200} height={showComments ? 'auto' : 0}>
+          <p className='w-fit mx-auto p-2 text-lg border-b-2 border-purple-200'>Comments</p>
+          {commentStatus === 0 && <CircularProgress size={24} sx={{ color: "inherit" }} />}
+          {commentStatus === 1 && <ul>
+            { comments.map((comment, index) => (
+              <li key={index} className='border-purple-200 border-b-2 last:border-0 flex flex-row items-center py-2 mx-5'>
+                <p className={ratingColors[comment.rating - 1] + " text-3xl w-10 h-10"}>{comment.rating}</p>
+                <p className='text-left  text-sm w-fit'>{comment.comment}</p>
+              </li>
+            ))}
+          </ul>}
+          {commentStatus === 2 && <p className='text-center'>No comments yet</p>}
+          {commentStatus === 3 && <p className='text-center'>Error fetching data</p>}
+        </AnimateHeight>
       </div>
       
       <div className='flex flex-row border-purple-200 border-x-2 border-b-2 rounded-b-xl'>

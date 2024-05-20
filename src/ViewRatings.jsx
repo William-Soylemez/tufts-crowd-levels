@@ -17,13 +17,13 @@ const ViewRatings = () => {
   return (
     <div>
       {/* Title */}
-      <div className='mb-10'>
-        <h1 className='text-center pb-2 border-b-2 border-purple-200 w-1/2 mx-auto text-lg'>View Ratings</h1>
+      <div className='mb-5'>
+        <h1 className='text-center pb-1 border-b-2 border-purple-200 w-2/3 mb-2 mx-auto text-lg'>How busy is Tufts?</h1>
         <p className='mx-auto w-fit'>{new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(new Date())}</p>
       </div>
 
       {/* Time selector */}
-      <div className='flex flex-row justify-between mx-5 mb-5 items-center'>
+      <div className='flex flex-row justify-center mx-5 mb-2 items-center'>
 
         {/* Old interface */}
         {/* <button
@@ -37,11 +37,11 @@ const ViewRatings = () => {
         >+</button> */} 
 
         {/* New interface (dropdown) */}
-        <button
+        {/* <button
           onClick={() => setHour((hour + 23) % 24)}
           className='text-lg border-2 border-purple-200 rounded-xl w-10 h-10'
-        >-</button>
-        <select onChange={(e) => setHour(parseInt(e.target.value))} value={hour} className='border-2 border-purple-200 rounded-xl p-2'>
+        >-</button> */}
+        <select onChange={(e) => setHour(parseInt(e.target.value))} value={hour} className='border-2 border-purple-200 rounded-xl p-2 mx-5 my-2'>
           {
             Array.from({ length: 24 }, (_, i) => (
               <option key={i} value={i}>{formatHour(i)}</option>
@@ -49,10 +49,10 @@ const ViewRatings = () => {
           }
         </select>
         <button className='p-2 bg-purple-200 rounded-xl' onClick={() => setHour((new Date()).getHours())}>Now</button>
-        <button
+        {/* <button
           onClick={() => setHour((hour + 25) % 24)}
           className='text-lg border-2 border-purple-200 rounded-xl w-10 h-10'
-        >+</button>
+        >+</button> */}
       </div>
 
       {/* Category selector */}
@@ -67,13 +67,18 @@ const ViewRatings = () => {
       </div>
 
       {/* Ratings */}
-      {
-        LOCATIONS
-          .filter((location) => (filter === 'all' || location.category === filter))
-          .map((location, index) => (
-            <LocationRating key={index} location={location} hour={hour} />
-          ))
-      }
+      <div className='flex flex-wrap justify-center'>
+
+        {
+          LOCATIONS
+            .filter((location) => (filter === 'all' || location.category === filter))
+            .map((location, index) => (
+              <div className='w-full md:w-1/2 lg:w-1/3 p-4' key={index}>
+                <LocationRating location={location} hour={hour} />
+              </div>
+            ))
+        }
+      </div>
     </div>
   );
 }

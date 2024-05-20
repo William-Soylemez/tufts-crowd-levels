@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 const links = [
   { name: 'Ratings', path: '/ratings' },
   { name: 'About', path: '/about' },
-  { name: 'Submit rating', path: '/submit' }
+  // { name: 'Submit rating', path: '/submit' }
 ];
 
 const Navigation = () => {
@@ -18,7 +18,7 @@ const Navigation = () => {
     <nav className='border-b-2 border-purple-200 py-2 px-5 sticky top-0 bg-purple-100 z-10'>
       
       <div className='flex flex-row justify-between'>
-        <button onClick={() => setShowNav(true)} className=''>
+        <button onClick={() => setShowNav(true)} >
           <MenuIcon style={{ fontSize: 36 }} />
         </button>
         <Link to='/' className=''>

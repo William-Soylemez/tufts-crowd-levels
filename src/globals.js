@@ -45,7 +45,7 @@ const LOCATIONS = [
         databaseKey: 9
     },
     {
-        name: "Grannoff Practice Rooms",
+        name: "Granoff Practice Rooms",
         category: "other",
         databaseKey: 10
     },
